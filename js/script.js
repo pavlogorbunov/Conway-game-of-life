@@ -63,12 +63,38 @@ function handleClearButtonClick() {
     handleResize();
 }
 
+function handlePlusButtonClick() {
+    if (isPlaying) {
+        field.classList.add('field_edit');
+        playButton.classList.remove('header__button_active');
+        playButton.innerText = 'СТАРТ';
+        isPlaying = false;
+        stop(playTimer);
+    }
+    while (field.firstChild) {
+        field.removeChild(field.firstChild);
+    }
+    cellSize += 2;
+    handleResize();
+}
+
+function handleMinusButtonClick() {
+    cellSize -= 2;
+    handleResize();
+}
+
 function handleResize() {
-    const cellSize = 18;
+    if (isPlaying) {
+        field.classList.add('field_edit');
+        playButton.classList.remove('header__button_active');
+        playButton.innerText = 'СТАРТ';
+        isPlaying = false;
+        stop(playTimer);
+    }
     const xCells = Math.floor(field.offsetWidth / cellSize);
     cellWidth = field.offsetWidth / xCells;
-    const yCells = Math.floor((window.innerHeight - field.getBoundingClientRect().top) / cellSize);
-    cellHeight = (window.innerHeight - field.getBoundingClientRect().top) / yCells;
+    const yCells = Math.floor((window.innerHeight - field.getBoundingClientRect().top - footer.getBoundingClientRect().height) / cellSize);
+    cellHeight = (window.innerHeight - field.getBoundingClientRect().top - footer.getBoundingClientRect().height) / yCells;
     B = [];
     for (let i = 0; i < yCells; ++i) {
         B.push(Array(xCells).fill(0));
@@ -101,17 +127,22 @@ function showCells(array) {
 let B = [];
 let isPlaying = false;
 
+let cellSize = 18;
 let cellWidth = 18;
 let cellHeight = 18;
 
 const field = document.getElementById('field');
+const footer = document.getElementById('footer');
 const playButton = document.getElementById('playButton');
 const clearButton = document.getElementById('clearButton');
+const plusButton = document.getElementById('+');
+const minusButton = document.getElementById('-');
 
 handleResize();
 
 field.addEventListener('mousedown', handleCellMouseDown);
 playButton.addEventListener('click', handlePlayButtonClick);
 clearButton.addEventListener('click', handleClearButtonClick);
+plusButton.addEventListener('click', handlePlusButtonClick);
+minusButton.addEventListener('click', handleMinusButtonClick);
 window.addEventListener('resize', () => { setTimeout(handleResize, 200) });
-field.height = window.innerHeight - field.getBoundingClientRect().top;
