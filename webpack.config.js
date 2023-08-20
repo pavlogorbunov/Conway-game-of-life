@@ -24,13 +24,22 @@ module.exports = {
     module: {
         rules: [
             {
+                test: /\.ts$/,
+                use: 'ts-loader',
+                exclude: /node_modules/,
+            },
+            {
                 test: /\.js$/,
                 loader: 'babel-loader',
                 exclude: /(node_modules|bower_components)/
             },
-            {
-                test: /\.(png|svg|jpg|gif|woff(2)?|eot|ttf|otf)$/,
-                type: 'asset/resource'
+            // {
+            //     test: /\.(png|svg|jpg|gif|woff(2)?|eot|ttf|otf)$/,
+            //     type: 'asset/resource'
+            // },
+            { 
+                test: /\.(png|jp(e*)g|svg|gif)$/, 
+                use: ['file-loader']
             },
             {
                 test: /\.css$/,

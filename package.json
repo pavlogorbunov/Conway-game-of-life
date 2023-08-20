@@ -2,9 +2,10 @@
   "name": "conways_game_js_dom",
   "version": "1.0.0",
   "description": "[Start](https://pavlogorbunov.github.io/Conway-game-of-life/)",
-  "main": "index.js",
+  "main": "index.html",
   "scripts": {
-    "build": "npx webpack --mode production"
+    "build": "npx webpack --mode production",
+    "start": "start http://localhost:8080/ & npx webpack serve --mode development --live-reload"
   },
   "author": "PG",
   "license": "free",
@@ -16,11 +17,15 @@
     "cssnano": "^6.0.1",
     "favicons": "^7.1.4",
     "favicons-webpack-plugin": "^6.0.1",
+    "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.5.3",
     "mini-css-extract-plugin": "^2.7.6",
     "postcss-cli": "^10.1.0",
     "postcss-loader": "^7.3.3",
+    "ts-loader": "^9.4.4",
+    "typescript": "^5.1.6",
     "webpack": "^5.88.2",
-    "webpack-cli": "^5.1.4"
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
   }
 }

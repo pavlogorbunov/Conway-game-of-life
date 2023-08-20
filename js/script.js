@@ -1,6 +1,7 @@
 import getNextGen from "./conway.js"
-import * as imported from "./configurations.js"
+import * as imported from "./configurations.ts"
 import '../css/style.css'
+import logo from '../img/PG.jpg'
 
 function toggleCell(cell) {
     cell.classList.toggle('cell_active')
@@ -152,6 +153,46 @@ function handleConfigurationsBtnClick() {
     showPopup(configurationsPopup)
 }
 
+function generateConfigurationItem(item, id) {
+
+    const article = document.createElement('article')
+    article.id = id
+    article.classList.add('configuration')
+
+    const img = document.createElement('img')
+    img.src = item.img
+    img.classList.add('configuration__img')
+
+    const p = document.createElement('p')
+    p.textContent = item.name
+    p.classList.add('configuration__name')
+
+    article.appendChild(img)
+    article.appendChild(p)
+
+    // console.log(item)
+
+    if (item.draw) article.addEventListener('click', () => { handlePopupClose(); item.draw(B); showCells(B); })
+    else article.addEventListener('click', () => {addConfiguration(id, B)})
+
+    return article
+}
+
+function fillConfigurationsPopup() {
+    const container = document.querySelector('.popup__container_conf')
+    Object.keys(imported).forEach(item => {
+        if (item !== 'addFigure') {
+            container.appendChild(generateConfigurationItem(imported[item], item))
+        }
+    })
+    const btn = document.createElement('button')
+    btn.classList.add('popup__close')
+    btn.textContent = 'ОК'
+    container.appendChild(btn)
+}
+
+fillConfigurationsPopup()
+
 let B = []
 let playTimer = {}
 let isPlaying = false
@@ -159,6 +200,8 @@ let isPlaying = false
 let cellSize = 18
 let cellWidth = cellSize
 let cellHeight = cellSize
+
+document.querySelector('.header__logo').style.backgroundImage = `url(${logo})`
 
 const field = document.getElementById('field')
 const footer = document.getElementById('footer')
@@ -172,7 +215,6 @@ const infoPopupOpen = document.getElementById('infoPopupOpen')
 const popupCloseBtns = document.querySelectorAll('.popup__close')
 const showConfidurationsBtn = document.getElementById('configurations')
 const configurationsPopup = document.getElementById('configurationsPopup')
-const configurations = document.querySelectorAll('.configuration')
 
 handleResize()
 
@@ -184,7 +226,7 @@ minusButton.addEventListener('click', handleMinusButtonClick)
 infoPopupOpen.addEventListener('click', handleInfoPopupOpen)
 showConfidurationsBtn.addEventListener('click', handleConfigurationsBtnClick)
 Array.from(popupCloseBtns).forEach(btn => { btn.addEventListener('click', handlePopupClose) })
-Array.from(configurations).forEach(conf => { conf.addEventListener('click', () => { addConfiguration(conf.id) }) })
+Array.from(popups).forEach(p => { p.addEventListener('click', e => { if (e.target === p) { handlePopupClose() } }) })
 
 window.addEventListener('resize', () => {
     handleClearButtonClick()

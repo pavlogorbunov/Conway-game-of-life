@@ -40,7 +40,7 @@ function fillNextGenArray(currentGenArray, neighboursNumsArray) {
 }
 
 function getNextGen(array) {
-    if (JSON.parse(JSON.stringify(array)) === JSON.parse(JSON.stringify([[]]))) return array;
+    if (JSON.stringify(array) === JSON.stringify([[]])) return array;
     let currentArray = JSON.parse(JSON.stringify(array));
 
     // currentArray = addZerosAroundArray(currentArray);
